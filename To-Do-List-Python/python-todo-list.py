@@ -1,7 +1,6 @@
 import os
 
 task_list = []
-status = True
 
 def add_list(name):
     global task_list
@@ -10,7 +9,10 @@ def add_list(name):
 def remove_list():
     pass
 
-while status:
+def show_menu():
+    pass
+
+while True:
     print("\n==========TODO LIST==========\n")
     print("[1] Lihat Task")
     print("[2] Tambah Task")
@@ -23,8 +25,8 @@ while status:
     match choice:
         case 1:
             print()
-            for task in range(len(task_list)):  
-                print(f"{task+1}. {task_list[task]}")
+            for i, task in enumerate(task_list, start=1):  
+                print("{i}. {task}")
 
             input("\nTekan Enter untuk lanjut...")
 
@@ -36,6 +38,7 @@ while status:
             pass
 
         case 0:
+            break
             pass
 
     os.system("clear")
