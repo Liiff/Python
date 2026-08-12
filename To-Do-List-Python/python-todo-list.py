@@ -57,6 +57,16 @@ while True:
                 my_task.add_task(name)            
 
         case 3:
+            print()
+            for i, task in enumerate(my_task.get_task(), start=1):
+                if task["status"]:
+                    status = "✅"
+
+                else:
+                    status = "❌"
+
+                print(f"{i}. {task["name"]} {status}")
+
             number = int(input("\nEnter task number to remove: "))
             my_task.remove_task(number)
 
@@ -68,7 +78,7 @@ while True:
                 for i, task in enumerate(my_task.get_task(), start=1):
                     if task["status"]:
                         status = "✅"
-                
+
                     else:
                         status = "❌"
                 
