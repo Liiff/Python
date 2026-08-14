@@ -1,5 +1,16 @@
 import os
 
+
+def clear_terminal():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
+def show_header(name_header):
+    pass
+
+
 class Task:
     def __init__(self):
         self.__task_list = []
@@ -15,15 +26,22 @@ class Task:
     def get_task(self):
         return self.__task_list
 
+    def get_task_by_id(self, no):
+        return self.__task_list[no-1]["name"]
+
     def complete_task(self, no):
         self.__task_list[no-1]["status"] = True
+
+    def edit_task(self, no, new_title):
+        self.__task_list[no-1]["name"] = new_title
 
     def show_menu(self):
         print("\n==========TODO LIST==========\n")
         print("[1] View Task")
         print("[2] Add Task")
         print("[3] Remove Task")
-        print("[4] Complete Task")
+        print("[4] Edit Task")
+        print("[5] Complete Task")
         print("[0] Exit")
         print("\n-----------------------------")
 
@@ -32,7 +50,6 @@ my_task = Task()
 
 while True:
     my_task.show_menu()
-
     choice = int(input("\n>> Choice : "))
 
     match choice:
@@ -45,7 +62,7 @@ while True:
                 else:
                     status = "❌"
 
-                print(f"{i}. {task["name"]} {status}")
+                print(f"{i}. [{status}] {task["name"]}")
 
             input("\nPress Enter to continue...")
 
@@ -60,29 +77,54 @@ while True:
             print()
             for i, task in enumerate(my_task.get_task(), start=1):
                 if task["status"]:
-                    status = "✅"
+                    status_task = "✅"
 
                 else:
-                    status = "❌"
+                    status_task = "❌"
 
-                print(f"{i}. {task["name"]} {status}")
+                print(f"{i}. [{status_task}] {task["name"]}")
 
-            number = int(input("\nEnter task number to remove: "))
+            number = int(input("\nEnter task number to remove : "))
             my_task.remove_task(number)
 
         case 4:
+            print()
+            print("Your Tasks:\n")
+
+            for i, task in enumerate(my_task.get_task(), start=1):
+                if task["status"]:
+                    status_task = "✅"
+
+                else:
+                    status_task = "❌"
+
+                print(f"{i}. [{status_task}] {task["name"]}")
+
+            print("\n----------------------------------\n")
+            no = int(input("Enter task ID to edit : "))
+
+            print("\nCurrent Task :")
+            print(f"{my_task.get_task_by_id(no)} \n")
+            new_title = input("New task title : ")
+
+            my_task.edit_task(no, new_title)
+
+            print("\n✓ Task updated successfully!\n")
+            input("Press Enter to continue...")
+
+        case 5:
             status = True
 
             while status:
                 print()
                 for i, task in enumerate(my_task.get_task(), start=1):
                     if task["status"]:
-                        status = "✅"
+                        status_task = "✅"
 
                     else:
-                        status = "❌"
+                        status_task = "❌"
                 
-                    print(f"{i}. {task["name"]} {status}")
+                    print(f"{i}. [{status_task}] {task["name"]}")
                 
                 number = int(input("\nEnter the task number to complete: "))
                 my_task.complete_task(number)
@@ -104,5 +146,4 @@ while True:
             print("\nGood Bye!")
             break
 
-    os.system("cls")
-
+    clear_terminal()
