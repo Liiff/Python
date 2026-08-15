@@ -7,33 +7,32 @@ def clear_terminal():
     else:
         os.system('clear')
 
-def show_header(name_header):
+
+def show_header(header_title):
     pass
 
 
-class Task:
+class TaskManager:
     def __init__(self):
-        self.__task_list = []
+        self.__tasks = []
 
-    def add_task(self, name):
-        self.__task_list.append(
-            {"name": name, "status": False}
-        )
+    def add_task(self, title):
+        self.__tasks.append({"title": title, "is_completed": False})
 
-    def remove_task(self, no):
-        self.__task_list.pop(no-1)
+    def remove_task(self, task_index):
+        self.__tasks.pop(task_index - 1)
 
     def get_task(self):
-        return self.__task_list
+        return self.__tasks
 
-    def get_task_by_id(self, no):
-        return self.__task_list[no-1]["name"]
+    def get_task_by_id(self, task_index):
+        return self.__tasks[task_index - 1]["title"]
 
-    def complete_task(self, no):
-        self.__task_list[no-1]["status"] = True
+    def complete_task(self, task_index):
+        self.__tasks[task_index - 1]["is_completed"] = True
 
-    def edit_task(self, no, new_title):
-        self.__task_list[no-1]["name"] = new_title
+    def edit_task(self, task_index, new_title):
+        self.__tasks[task_index - 1]["title"] = new_title
 
     def show_menu(self):
         print("\n==========TODO LIST==========\n")
@@ -46,98 +45,89 @@ class Task:
         print("\n-----------------------------")
 
 
-my_task = Task()
+task_manager = TaskManager()
 
 while True:
-    my_task.show_menu()
+    task_manager.show_menu()
     choice = int(input("\n>> Choice : "))
 
     match choice:
         case 1:
             print()
-            for i, task in enumerate(my_task.get_task(), start=1):
-                if task["status"]:
-                    status = "✅"
-
+            for index, task in enumerate(task_manager.get_task(), start=1):
+                if task["is_completed"]:
+                    status_icon = "✅"
                 else:
-                    status = "❌"
-
-                print(f"{i}. [{status}] {task["name"]}")
+                    status_icon = "❌"
+                print(f"{index}. [{status_icon}] {task["title"]}")
 
             input("\nPress Enter to continue...")
 
         case 2:
-            total = int(input("\nEnter the number of tasks to add: ")) # ✅ ❌
+            task_count = int(input("\nEnter the number of tasks to add: ")) # ✅ ❌
 
-            for i in range(total):
-                name = input(f"Task {i+1} : ")
-                my_task.add_task(name)            
+            for index in range(task_count):
+                title = input(f"Task {index + 1} : ")
+                task_manager.add_task(title)            
 
         case 3:
             print()
-            for i, task in enumerate(my_task.get_task(), start=1):
-                if task["status"]:
-                    status_task = "✅"
-
+            for index, task in enumerate(task_manager.get_task(), start=1):
+                if task["is_completed"]:
+                    status_icon = "✅"
                 else:
-                    status_task = "❌"
+                    status_icon = "❌"
+                print(f"{index}. [{status_icon}] {task["title"]}")
 
-                print(f"{i}. [{status_task}] {task["name"]}")
-
-            number = int(input("\nEnter task number to remove : "))
-            my_task.remove_task(number)
+            selected_index = int(input("\nEnter task number to remove : "))
+            task_manager.remove_task(selected_index)
 
         case 4:
             print()
             print("Your Tasks:\n")
 
-            for i, task in enumerate(my_task.get_task(), start=1):
-                if task["status"]:
-                    status_task = "✅"
-
+            for index, task in enumerate(task_manager.get_task(), start=1):
+                if task["is_completed"]:
+                    status_icon = "✅"
                 else:
-                    status_task = "❌"
-
-                print(f"{i}. [{status_task}] {task["name"]}")
+                    status_icon = "❌"
+                print(f"{index}. [{status_icon}] {task["title"]}")
 
             print("\n----------------------------------\n")
-            no = int(input("Enter task ID to edit : "))
+            selected_index = int(input("Enter task ID to edit : "))
 
             print("\nCurrent Task :")
-            print(f"{my_task.get_task_by_id(no)} \n")
+            print(f"{task_manager.get_task_by_id(selected_index)} \n")
             new_title = input("New task title : ")
 
-            my_task.edit_task(no, new_title)
+            task_manager.edit_task(selected_index, new_title)
 
             print("\n✓ Task updated successfully!\n")
             input("Press Enter to continue...")
 
         case 5:
-            status = True
+            is_completing_tasks = True
 
-            while status:
+            while is_completing_tasks:
                 print()
-                for i, task in enumerate(my_task.get_task(), start=1):
-                    if task["status"]:
-                        status_task = "✅"
-
+                for index, task in enumerate(task_manager.get_task(), start=1):
+                    if task["is_completed"]:
+                        status_icon = "✅"
                     else:
-                        status_task = "❌"
+                        status_icon = "❌"
+                    print(f"{index}. [{status_icon}] {task["title"]}")
                 
-                    print(f"{i}. [{status_task}] {task["name"]}")
-                
-                number = int(input("\nEnter the task number to complete: "))
-                my_task.complete_task(number)
+                selected_index = int(input("\nEnter the task number to complete: "))
+                task_manager.complete_task(selected_index)
 
                 while True:
-                    exit = input("Any other tasks to complete? (y/n): ").lower()
+                    continue_input = input("Any other tasks to complete? (y/n): ").lower()
 
-                    if len(exit) == 1 and exit in ("y", "n"):
-                        if exit == "y":
+                    if len(continue_input) == 1 and continue_input in ("y", "n"):
+                        if continue_input == "y":
                             break
-
                         else:
-                            status = False
+                            is_completing_tasks = False
                             break
 
                     print("Please enter only 'y' or 'n'.")
