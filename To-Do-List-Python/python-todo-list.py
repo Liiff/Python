@@ -16,22 +16,22 @@ class TaskManager:
     def __init__(self):
         self.__tasks = []
 
-    def add_task(self, title):
+    def add_task(self, title: str):
         self.__tasks.append({"title": title, "is_completed": False})
 
-    def remove_task(self, task_index):
+    def remove_task(self, task_index: int):
         self.__tasks.pop(task_index - 1)
 
     def get_task(self):
         return self.__tasks
 
-    def get_task_by_id(self, task_index):
+    def get_task_by_id(self, task_index: int):
         return self.__tasks[task_index - 1]["title"]
 
-    def complete_task(self, task_index):
+    def complete_task(self, task_index: int):
         self.__tasks[task_index - 1]["is_completed"] = True
 
-    def edit_task(self, task_index, new_title):
+    def edit_task(self, task_index: int, new_title: str):
         self.__tasks[task_index - 1]["title"] = new_title
 
     def show_menu(self):
@@ -121,7 +121,7 @@ while True:
                 task_manager.complete_task(selected_index)
 
                 while True:
-                    continue_input = input("Any other tasks to complete? (y/n): ").lower()
+                    continue_input = input("\nAny other tasks to complete? (y/n): ").lower()
 
                     if len(continue_input) == 1 and continue_input in ("y", "n"):
                         if continue_input == "y":
