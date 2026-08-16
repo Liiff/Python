@@ -59,7 +59,8 @@ while True:
                     status_icon = "✅"
                 else:
                     status_icon = "❌"
-                print(f"{index}. [{status_icon}] {task["title"]}")
+                print(f"{index}. {task["title"]}")
+                print(f"   Status     : {status_icon}\n")
 
             input("\nPress Enter to continue...")
 
