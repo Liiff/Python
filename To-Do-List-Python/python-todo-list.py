@@ -138,3 +138,4 @@ while True:
             break
 
     clear_terminal()
+    
